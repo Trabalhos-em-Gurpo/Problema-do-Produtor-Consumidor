@@ -1,51 +1,35 @@
-#include <stdlib.h> /* necessário para rand() */
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdbool.h>
+#include <pthread.h>
 #include "buffer.h"
 
-void *produtor(void *parâmetro)
-{
-
+void *produtor(void *parametro) {
     buffer_item item;
 
-    while (true)
-    {
-
-        /* dormir por um período aleatório */
-
-        sleep(...);
-
-        /* gerar um número aleatório */
-
+    while (true) {
+        sleep(rand() % 3 + 1);
         item = rand();
 
-        if (insert_item(item))
-
-            fprintf("condição de erro de relatório");
-
-        else
-
-            printf("produtor produziu %d\n", item);
+        if (insert_item(item)) {
+            fprintf(stderr, "Erro ao produzir item\n");
+        } else {
+            printf("Produtor produziu: %d\n", item);
+        }
     }
 }
 
-void *consumidor(void *parâmetro)
-{
-
+void *consumidor(void *parametro) {
     buffer_item item;
 
-    while (true)
-    {
+    while (true) {
+        sleep(rand() % 3 + 1);
 
-        /* dormir por um período aleatório de tempo */
-
-        sleep(...);
-
-        if (remove_item(&item))
-
-            fprintf("condição de erro de relatório");
-
-        else
-
-            printf("consumidor consumido %d\n", item);
+        if (remove_item(&item)) {
+            fprintf(stderr, "Erro ao consumir item\n");
+        } else {
+            printf("Consumidor consumiu: %d\n", item);
+        }
     }
 }
